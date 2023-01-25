@@ -28,7 +28,15 @@ public class EndToEndWorkflow {
     @Test
     @Order(1)
     public void createBookingAndVerifyByGettingById() throws IOException {
-        HttpResponse createResponse = BookingService.createBooking("Akshay", "Tomar", 111, true, "2023-01-25", "2023-01-26", "Cover");
+        JSONObject json = new JSONObject();
+        json.put("firstname", "Akshay");
+        json.put("lastname", "Tomar");
+        json.put("totalprice", 111);
+        json.put("depositpaid", true);
+        json.put("bookingdates", new JSONObject().put("checkin", "2023-01-25").put("checkout", "2023-01-26"));
+        json.put("additionalneeds", "Cover");
+
+        HttpResponse createResponse = BookingService.createBooking(json);
         assertEquals(createResponse.getStatusLine().getStatusCode(), HttpStatus.SC_OK);
         String responseString = new BasicResponseHandler().handleResponse(createResponse);
         JSONObject jsonObject = new JSONObject(responseString);
@@ -46,8 +54,14 @@ public class EndToEndWorkflow {
     @Test
     @Order(2)
     public void updateBookingAndVerifyByBody() throws IOException {
-
-        HttpResponse updateResponse = BookingService.updateBooking(bookingId, token, "Akshay21", "Tomar21", 21, true, "2023-01-25", "2023-01-26", "Breakfast");
+        JSONObject json = new JSONObject();
+        json.put("firstname", "Akshay21");
+        json.put("lastname", "Tomar21");
+        json.put("totalprice", 21);
+        json.put("depositpaid", true);
+        json.put("bookingdates", new JSONObject().put("checkin", "2023-01-25").put("checkout", "2023-01-26"));
+        json.put("additionalneeds", "Cover");
+        HttpResponse updateResponse = BookingService.updateBooking(bookingId, token, json);
 
         assertEquals(updateResponse.getStatusLine().getStatusCode(), HttpStatus.SC_OK);
         String responseString = new BasicResponseHandler().handleResponse(updateResponse);

@@ -68,15 +68,7 @@ public class BookingService {
         return client.execute(get);
     }
 
-    public static HttpResponse createBooking(String firstname, String lastname, int totalprice, Boolean depositpaid, String checkin, String checkout, String additionalneeds) throws IOException {
-        JSONObject json = new JSONObject();
-        json.put("firstname", firstname);
-        json.put("lastname", lastname);
-        json.put("totalprice", totalprice);
-        json.put("depositpaid", depositpaid);
-        json.put("bookingdates", new JSONObject().put("checkin", checkin).put("checkout", checkout));
-        json.put("additionalneeds", additionalneeds);
-
+    public static HttpResponse createBooking(JSONObject jsonObject) throws IOException {
         //Given
         HttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost(new PropertiesReader().getBaseURI() + BOOKING);
@@ -84,7 +76,7 @@ public class BookingService {
         post.setHeader(HttpHeaders.ACCEPT, "application/json");
 
         StringEntity requestEntity = new StringEntity(
-                json.toString(),
+                jsonObject.toString(),
                 ContentType.APPLICATION_JSON);
         post.setEntity(requestEntity);
 
@@ -92,15 +84,7 @@ public class BookingService {
         return client.execute(post);
     }
 
-    public static HttpResponse updateBooking(int id, String token, String firstname, String lastname, int totalprice, Boolean depositpaid, String checkin, String checkout, String additionalneeds) throws IOException {
-        JSONObject json = new JSONObject();
-        json.put("firstname", firstname);
-        json.put("lastname", lastname);
-        json.put("totalprice", totalprice);
-        json.put("depositpaid", depositpaid);
-        json.put("bookingdates", new JSONObject().put("checkin", checkin).put("checkout", checkout));
-        json.put("additionalneeds", additionalneeds);
-
+    public static HttpResponse updateBooking(int id, String token, JSONObject jsonObject) throws IOException {
         //Given
         HttpClient client = new DefaultHttpClient();
         HttpPut put = new HttpPut(new PropertiesReader().getBaseURI() + BOOKING + "/" + id);
@@ -109,7 +93,7 @@ public class BookingService {
         put.setHeader("Cookie", "token=" + token);
 
         StringEntity requestEntity = new StringEntity(
-                json.toString(),
+                jsonObject.toString(),
                 ContentType.APPLICATION_JSON);
         put.setEntity(requestEntity);
 
