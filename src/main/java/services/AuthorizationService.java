@@ -5,7 +5,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONObject;
 import utils.PropertiesReader;
 
@@ -20,8 +20,7 @@ public class AuthorizationService {
         json.put("username", username);
         json.put("password", password);
 
-        //Given
-        HttpClient client = new DefaultHttpClient();
+        HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(new PropertiesReader().getBaseURI() + AUTH);
 
         StringEntity requestEntity = new StringEntity(
@@ -29,7 +28,6 @@ public class AuthorizationService {
                 ContentType.APPLICATION_JSON);
         post.setEntity(requestEntity);
 
-        // When
         return client.execute(post);
     }
 }

@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AllUpdateTest {
+public class PartialUpdateTests {
     public static int bookingId;
     public static String token;
 
@@ -53,16 +53,13 @@ public class AllUpdateTest {
     }
 
     @Test
-    public void updateBookingCorrectly() throws IOException {
+    public void partialUpdateBookingCorrectly() throws IOException {
         JSONObject json = new JSONObject();
         json.put("firstname", "Akshay21");
         json.put("lastname", "Tomar21");
         json.put("totalprice", 21);
-        json.put("depositpaid", true);
-        json.put("bookingdates", new JSONObject().put("checkin", "2023-01-25").put("checkout", "2023-01-26"));
-        json.put("additionalneeds", "Cover");
 
-        HttpResponse updateResponse = BookingService.updateBooking(bookingId, token, json);
+        HttpResponse updateResponse = BookingService.partialUpdateBooking(bookingId, token, json);
 
         assertEquals(updateResponse.getStatusLine().getStatusCode(), HttpStatus.SC_OK);
         String responseString = new BasicResponseHandler().handleResponse(updateResponse);
@@ -71,20 +68,6 @@ public class AllUpdateTest {
         assertEquals(body.getString("firstname"), "Akshay21");
         assertEquals(body.getString("lastname"), "Tomar21");
         assertEquals(body.getInt("totalprice"), 21);
-    }
-
-    @Test
-    public void updateBookingWithIncorrectBody() throws IOException {
-        JSONObject json = new JSONObject();
-        json.put("ff", "Akshay");
-        json.put("ff", "Tomar");
-        json.put("totalprice", 21);
-        json.put("depositpaid", true);
-        json.put("bookingdates", new JSONObject().put("checkin", "2023-01-25").put("checkout", "2023-01-26"));
-        json.put("additionalneeds", "Cover");
-
-        HttpResponse updateResponse = BookingService.updateBooking(bookingId, token, json);
-        assertEquals(updateResponse.getStatusLine().getStatusCode(), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
@@ -97,7 +80,7 @@ public class AllUpdateTest {
         json.put("bookingdates", new JSONObject().put("checkin", "2023-01-25").put("checkout", "2023-01-26"));
         json.put("additionalneeds", "Cover");
 
-        HttpResponse updateResponse = BookingService.updateBooking(-9, token, json);
+        HttpResponse updateResponse = BookingService.partialUpdateBooking(-9, token, json);
         assertEquals(updateResponse.getStatusLine().getStatusCode(), HttpStatus.SC_METHOD_NOT_ALLOWED);
     }
 

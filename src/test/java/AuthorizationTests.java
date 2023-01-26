@@ -6,13 +6,12 @@ import services.AuthorizationService;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class AuthorizationTest {
+public class AuthorizationTests {
 
     @Test
-    public void getAuthorizedToken() throws IOException {
+    public void getAuthorizedTokenByValidCredentials() throws IOException {
         // When
         HttpResponse response = AuthorizationService.getAuthToken("admin", "password123");
 
@@ -23,5 +22,19 @@ public class AuthorizationTest {
 
         String responseString = new BasicResponseHandler().handleResponse(response);
         assertFalse(responseString.contains("Bad Credentials"));
+    }
+
+    @Test
+    public void getAuthorizedTokenByInValidCredentials() throws IOException {
+        // When
+        HttpResponse response = AuthorizationService.getAuthToken("admin", "invalid");
+
+        // Then
+        assertEquals(
+                response.getStatusLine().getStatusCode(),
+                HttpStatus.SC_OK);
+
+        String responseString = new BasicResponseHandler().handleResponse(response);
+        assertTrue(responseString.contains("Bad credentials"));
     }
 }

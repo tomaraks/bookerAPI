@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AllPartialUpdateTest {
+public class DeleteTests {
     public static int bookingId;
     public static String token;
 
@@ -53,48 +53,23 @@ public class AllPartialUpdateTest {
     }
 
     @Test
-    public void partialUpdateBookingCorrectly() throws IOException {
-        JSONObject json = new JSONObject();
-        json.put("firstname", "Akshay21");
-        json.put("lastname", "Tomar21");
-        json.put("totalprice", 21);
+    public void deleteBookingCorrectly() throws IOException {
 
-        HttpResponse updateResponse = BookingService.partialUpdateBooking(bookingId, token, json);
-
-        assertEquals(updateResponse.getStatusLine().getStatusCode(), HttpStatus.SC_OK);
-        String responseString = new BasicResponseHandler().handleResponse(updateResponse);
-        JSONObject body = new JSONObject(responseString);
-
-        assertEquals(body.getString("firstname"), "Akshay21");
-        assertEquals(body.getString("lastname"), "Tomar21");
-        assertEquals(body.getInt("totalprice"), 21);
+        HttpResponse deleteResponse = BookingService.deleteBookingById(bookingId, token);
+        assertEquals(deleteResponse.getStatusLine().getStatusCode(), HttpStatus.SC_CREATED);
+        bookingId = 0;
     }
 
     @Test
-    public void updateBookingWithIncorrectId() throws IOException {
-        JSONObject json = new JSONObject();
-        json.put("firstname", "Akshay21");
-        json.put("lastname", "Tomar21");
-        json.put("totalprice", 21);
-        json.put("depositpaid", true);
-        json.put("bookingdates", new JSONObject().put("checkin", "2023-01-25").put("checkout", "2023-01-26"));
-        json.put("additionalneeds", "Cover");
-
-        HttpResponse updateResponse = BookingService.partialUpdateBooking(-9, token, json);
+    public void deleteBookingWithIncorrectId() throws IOException {
+        HttpResponse updateResponse = BookingService.deleteBookingById(-9, token);
         assertEquals(updateResponse.getStatusLine().getStatusCode(), HttpStatus.SC_METHOD_NOT_ALLOWED);
     }
 
     @Test
-    public void updateBookingWithIncorrectToken() throws IOException {
-        JSONObject json = new JSONObject();
-        json.put("firstname", "Akshay21");
-        json.put("lastname", "Tomar21");
-        json.put("totalprice", 21);
-        json.put("depositpaid", true);
-        json.put("bookingdates", new JSONObject().put("checkin", "2023-01-25").put("checkout", "2023-01-26"));
-        json.put("additionalneeds", "Cover");
+    public void deleteBookingWithIncorrectToken() throws IOException {
 
-        HttpResponse updateResponse = BookingService.updateBooking(bookingId, "token", json);
+        HttpResponse updateResponse = BookingService.deleteBookingById(bookingId, "token");
         assertEquals(updateResponse.getStatusLine().getStatusCode(), HttpStatus.SC_FORBIDDEN);
     }
 }

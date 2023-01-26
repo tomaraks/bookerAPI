@@ -7,9 +7,10 @@ import java.util.Properties;
 
 public class PropertiesReader {
 
-    private Properties properties = new Properties();
+    private static Properties properties;
 
     public PropertiesReader() throws IOException {
+        properties = new Properties();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("application.properties");
 
         if (inputStream != null) {

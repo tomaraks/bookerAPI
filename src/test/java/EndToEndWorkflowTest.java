@@ -11,7 +11,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class EndToEndWorkflow {
+public class EndToEndWorkflowTest {
     public static int bookingId;
     public static String token;
 

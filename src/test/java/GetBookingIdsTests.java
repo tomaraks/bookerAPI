@@ -7,12 +7,13 @@ import org.junit.jupiter.api.Test;
 import services.BookingService;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GetBookingIdsTest {
+public class GetBookingIdsTests {
 
     @Test
     public void getAllIds() throws IOException {
@@ -23,7 +24,7 @@ public class GetBookingIdsTest {
     }
 
     @Test
-    public void getBookingIdByFirstName() throws IOException {
+    public void getBookingIdByFirstName() throws IOException, URISyntaxException {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("firstname", "Susan");
         HttpResponse response = BookingService.getBookingIdByParams(hashMap);
@@ -33,7 +34,7 @@ public class GetBookingIdsTest {
     }
 
     @Test
-    public void getBookingIdByLastName() throws IOException {
+    public void getBookingIdByLastName() throws IOException, URISyntaxException {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("lastname", "Wilson");
         HttpResponse response = BookingService.getBookingIdByParams(hashMap);
@@ -43,7 +44,7 @@ public class GetBookingIdsTest {
     }
 
     @Test
-    public void getBookingIdByFirstAndLastName() throws IOException {
+    public void getBookingIdByFirstAndLastName() throws IOException, URISyntaxException {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("firstname", "Susan");
         hashMap.put("lastname", "Wilson");
@@ -54,7 +55,7 @@ public class GetBookingIdsTest {
     }
 
     @Test
-    public void getBookingIdByCheckinAndCheckoutDates() throws IOException {
+    public void getBookingIdByCheckinAndCheckoutDates() throws IOException, URISyntaxException {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("checkin", "2019-02-07");
         hashMap.put("checkout", "2019-03-29");
